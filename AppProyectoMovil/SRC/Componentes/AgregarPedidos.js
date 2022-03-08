@@ -4,30 +4,29 @@ import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
 
 export default function AgregarPedido() {
   const [IdCliente, setIdCliente] = useState(null);
-  const [precioEnvio, setprecioEnvio] = useState(null); 
-  const [IdEmpleado, setIdEmpleado] = useState(null); 
-  const [IdDetallePedido, setIdDetallePedido] = useState(null); 
-  const [FechaPedido, setFechaPedido] = useState(null); 
-  const [EstadoPedido, setEstadoPedido] = useState(null); 
+  const [precioEnvio, setprecioEnvio] = useState(null);
+  const [IdEmpleado, setIdEmpleado] = useState(null);
+  const [IdDetallePedido, setIdDetallePedido] = useState(null);
+  const [FechaPedido, setFechaPedido] = useState(null);
+  const [EstadoPedido, setEstadoPedido] = useState(null);
 
   const presGuardar = async () => {
-    if(!IdCliente || !precioEnvio || !IdEmpleado || 
-        !IdDetallePedido || !FechaPedido || !EstadoPedido){
+    if (!IdCliente || !precioEnvio || !IdEmpleado ||
+      !IdDetallePedido || !FechaPedido || !EstadoPedido) {
       console.log("Escriba los datos requeridos");
       Alert.alert("Mandaditos", "Escriba los datos requeridos");
     }
-    else{
-      try{
+    else {
+      try {
         const respuesta = await fetch(
-          'http://192.168.1.45:7000/api/pedidos/guardar',
+          'http://localhost:7000/api/pedidos/guardar',
           {
-            method: "POST", 
+            method: "POST",
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              IdCliente: IdCliente,
               precioEnvio: precioEnvio,
               IdEmpleado: IdEmpleado,
               IdDetallePedido: IdDetallePedido,
@@ -38,7 +37,7 @@ export default function AgregarPedido() {
         const json = await respuesta.json();
         console.log(json);
         Alert.alert("Mandaditos", "Peticion procesada");
-      }catch(error){
+      } catch (error) {
         console.log(error);
       }
     }
@@ -53,44 +52,44 @@ export default function AgregarPedido() {
         <View style={[styles.contenedorControles, styles.sombraControles]}>
           <View style={styles.controles}>
             <TextInput
-            value={IdCliente}
-            onChangeText={setIdCliente}
+              value={IdCliente}
+              onChangeText={setIdCliente}
               placeholder="Escriba el ID del Cliente"
               style={styles.entradas}
             >
             </TextInput>
             <TextInput
-            value={precioEnvio}
-            onChangeText={setprecioEnvio}
+              value={precioEnvio}
+              onChangeText={setprecioEnvio}
               placeholder="Escriba el precio del Envio"
               style={styles.entradas}
             >
             </TextInput>
-            <TextInput 
-            value={IdEmpleado}
-            onChangeText={setIdEmpleado}
+            <TextInput
+              value={IdEmpleado}
+              onChangeText={setIdEmpleado}
               placeholder="Escriba el ID del Empleado"
-              style = {styles.entradas}
+              style={styles.entradas}
             >
             </TextInput>
             <TextInput>
-            value={IdDetallePedido}
-            onChangeText={setIdDetallePedido}
+              value={IdDetallePedido}
+              onChangeText={setIdDetallePedido}
               placeholder="Escriba el ID de Detalle Pedido"
               style = {styles.entradas}
             </TextInput>
-             <TextInput
-            value={FechaPedido}
-            onChangeText={setFechaPedido}
+            <TextInput
+              value={FechaPedido}
+              onChangeText={setFechaPedido}
               placeholder="Escriba la Fecha de Pedido"
-              style = {styles.entradas}
+              style={styles.entradas}
             ></TextInput>
 
             <TextInput
-            value={EstadoPedido}
-            onChangeText={setEstadoPedido}
+              value={EstadoPedido}
+              onChangeText={setEstadoPedido}
               placeholder="Escriba el Estado del Pedido"
-              style = {styles.entradas}
+              style={styles.entradas}
             >
 
             </TextInput>
@@ -98,7 +97,7 @@ export default function AgregarPedido() {
           <View style={styles.contenedorBotones}>
             <View style={styles.boton}>
               <Button title="Guardar"
-              onPress={presGuardar}
+                onPress={presGuardar}
               ></Button>
             </View>
           </View>
@@ -113,10 +112,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#e9ecef',
     alignItems: 'center',
     justifyContent: "center",
-    margin:0,
+    margin: 0,
     padding: 20,
-    width:"100%",
-    height:"100%",
+    width: "100%",
+    height: "100%",
   },
   contenedorPedidos: {
     alignItems: "stretch",
@@ -126,62 +125,62 @@ const styles = StyleSheet.create({
   },
   contenedorTitulo: {
     flex: 1,
-    flexDirection:"column",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-end",
   },
   contenedorControles: {
     flex: 3,
-    flexDirection:"column",
+    flexDirection: "column",
     alignItems: "stretch",
-    justifyContent:"center",
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: "#dedede",
-    borderRadius:25,
-    backgroundColor:"#fff",
-    padding:10,
+    borderRadius: 25,
+    backgroundColor: "#fff",
+    padding: 10,
   },
   sombraControles: {
     shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
+    shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
   titulo: {
-      color: "#495057" ,
-      fontSize: 40,
-      fontWeight: "500",
-    },
-  controles:{
-    flex:4,
-    marginBottom: 10,
-    paddingTop:10,
-    paddingLeft:10,
-    paddingRight:10,
+    color: "#495057",
+    fontSize: 40,
+    fontWeight: "500",
   },
-  contenedorBotones:{
-    flex:1,
+  controles: {
+    flex: 4,
+    marginBottom: 10,
+    paddingTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  contenedorBotones: {
+    flex: 1,
     padding: 10,
-    justifyContent:"space-evenly",
+    justifyContent: "space-evenly",
     flexDirection: "row",
   },
-  boton:{
-    flex:1,
-    alignItems:"stretch",
-    marginLeft:10,
-    marginRight:10,
+  boton: {
+    flex: 1,
+    alignItems: "stretch",
+    marginLeft: 10,
+    marginRight: 10,
   },
-  entradas:{
-    flex:1,
-    alignItems:"stretch",
-    margin:10,
-    padding:10,
+  entradas: {
+    flex: 1,
+    alignItems: "stretch",
+    margin: 10,
+    padding: 10,
     fontSize: 20,
-    fontWeight:"400",
+    fontWeight: "400",
     color: "#495057",
-    backgroundColor:"#fff",
-    borderWidth:1,
-    borderStyle:"solid",
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderStyle: "solid",
     borderColor: "#ced4da",
     borderRadius: 15,
   }
