@@ -73,12 +73,12 @@ export default function AgregarPedido() {
               style = {styles.entradas}
             >
             </TextInput>
-            <TextInput
+            <TextInput>
             value={IdDetallePedido}
             onChangeText={setIdDetallePedido}
               placeholder="Escriba el ID de Detalle Pedido"
               style = {styles.entradas}
-            >
+            </TextInput>
              <TextInput
             value={FechaPedido}
             onChangeText={setFechaPedido}
