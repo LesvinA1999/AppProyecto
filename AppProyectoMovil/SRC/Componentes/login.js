@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, TextInput, Dimensions, TouchableOpacity} from 'react-native';
+import React, { useCallback, useReducer, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Dimensions, Button, Alert, TouchableOpacity} from 'react-native';
 import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg"
 import ButtonGradient from './ButtonGradient';
 
 const { width, height } = Dimensions.get('window')
 
-export default function App() {
+export default function Login() {
 
   function SvgTop() {
     return (
@@ -52,6 +52,39 @@ export default function App() {
     </Svg>
     )
   }
+
+  const [Usuario, setUsuario] = useState();
+  const [Contrasena, setContrasena] = useState();
+
+  const iniciarSesion = async () => {
+    if(!Usuario || !Contrasena){
+      console.log("No puede dejar los campos vacios");
+      Alert.alert("UNICADEV", "No puede dejar los campos vacios");
+    }
+    else{
+      try{
+        const respuesta = await fetch(
+          'http://192.168.0.11:7000/api/autenticacion/inicioSesion',
+          {
+            method: "POST", 
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              Usuario: Usuario,
+              Contrasena: Contrasena
+            })
+          });
+        const json = await respuesta.json();
+        console.log(json);
+        Alert.alert("UNICADEV", "Peticion procesada");
+      }catch(error){
+        console.log(error);
+      }
+    }
+  }
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.containerSVG}>
@@ -60,17 +93,28 @@ export default function App() {
       <View style={styles.container}>
         <Text style={styles.titulo}>Bienvenido</Text>
         <Text style={styles.subTitle}>Iniciar sesión con su cuenta</Text>
-        <TextInput 
+        <TextInput value={Usuario}
+        onChangeText = {setUsuario}
           placeholder="ejemplo@gmail.com"
-          style={styles.textInput}
-        />
-        <TextInput 
+          style={styles.textInput}>
+        </TextInput>
+
+        <TextInput value={Contrasena}
+        onChangeText={setContrasena}
           placeholder="contraseña"
           style={styles.textInput}
-          secureTextEntry={true}
-        />
+          secureTextEntry={true}>
+        </TextInput>
+        
         <Text style={styles.forgotPassword}>¿Olvidaste tu contraseña?</Text>
-        <ButtonGradient/>
+        <View>
+            <Button
+              onPress={iniciarSesion}
+              title="Iniciar Sesión"
+              color="#3C75FF"
+              accessibilityLabel="Learn more about this purple button"
+            />
+        </View>
         <Text style={styles.forgotPassword}>¿No tienes una cuenta?</Text>
         <StatusBar style="auto" />
       </View>
@@ -117,7 +161,7 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   button: {
-
+    
   },
   
 });

@@ -7,13 +7,3 @@ export default function App() {
     <AgregarCliente></AgregarCliente>
   );
 }
-
-import AgregarPedido from './SRC/Componentes/AgregarPedidos';
-export default function App() {
-  return (
-    <AgregarPedido></AgregarPedido>
-  );
-}
-const styles = StyleSheet.create({
-  
-});
