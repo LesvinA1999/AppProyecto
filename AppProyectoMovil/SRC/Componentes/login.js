@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useReducer, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Dimensions, Button, Alert, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Dimensions, Button, Alert, navigation, TouchableOpacity} from 'react-native';
 import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg"
 import ButtonGradient from './ButtonGradient';
 
@@ -53,8 +53,8 @@ export default function Login() {
     )
   }
 
-  const [Usuario, setUsuario] = useState();
-  const [Contrasena, setContrasena] = useState();
+  const [Usuario, setUsuario] = useState('');
+  const [Contrasena, setContrasena] = useState('');
 
   const iniciarSesion = async () => {
     if(!Usuario || !Contrasena){
@@ -76,9 +76,9 @@ export default function Login() {
               Contrasena: Contrasena
             })
           });
+          
         const json = await respuesta.json();
         console.log(json);
-        Alert.alert("UNICADEV", "Peticion procesada");
       }catch(error){
         console.log(error);
       }
