@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
 
 export default function AgregarCliente() {
-  const [Nombre, setNombre] = useState(null);
-  const [Apellido, setApellido] = useState(null); 
-  const [Telefono, setTelefono] = useState(null); 
+  const [NombreCliente, setNombre] = useState(null);
+  const [ApellidoCliente, setApellido] = useState(null); 
+  const [TelefonoCliente, setTelefono] = useState(null); 
   const [Direccion, setDireccion] = useState(null); 
 
   const presGuardar = async () => {
-    if(!Nombre || !Apellido || !Direccion){
+    if(!NombreCliente || !ApellidoCliente || !Direccion){
       console.log("Escriba los datos requeridos");
       Alert.alert("MEDI", "Escriba los datos requeridos");
     }
@@ -24,9 +24,9 @@ export default function AgregarCliente() {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              Nombre: Nombre,
-              Apellido: Apellido,
-              Telefono: Telefono,
+              NombreCliente: NombreCliente,
+              ApellidoCliente: ApellidoCliente,
+              TelefonoCliente: TelefonoCliente,
               Direccion: Direccion,
             })
           });
@@ -48,21 +48,21 @@ export default function AgregarCliente() {
         <View style={[styles.contenedorControles, styles.sombraControles]}>
           <View style={styles.controles}>
             <TextInput
-            value={Nombre}
+            value={NombreCliente}
             onChangeText={setNombre}
               placeholder="Escriba el Nombre"
               style={styles.entradas}
             >
             </TextInput>
             <TextInput
-            value={Apellido}
+            value={ApellidoCliente}
             onChangeText={setApellido}
               placeholder="Escriba el Apellido"
               style={styles.entradas}
             >
             </TextInput>
             <TextInput 
-            value={Telefono}
+            value={TelefonoCliente}
             onChangeText={setTelefono}
               placeholder="Escriba el telefono"
               style = {styles.entradas}
