@@ -5,7 +5,7 @@ import {Text, ScrollView, ImageBackground, Dimensions, View, TextInput, StyleShe
 import { ListItem, Avatar, CheckBox, Button } from 'react-native-elements'
 
 
-export default function LoginScreen() {
+const LoginScreen = ({navigation}) => {
 
   const [Usuario, setUsuario] = useState('');
   const [Contrasena, setContrasena] = useState('');
@@ -93,7 +93,7 @@ export default function LoginScreen() {
           </View>
 
           <View style={styles.buttonsContainer}>
-              <Button onPress={iniciarSesion}
+              <Button onPress={() => navigation.navigate('AgregarClientes')}
                 title="LOG IN"
                 buttonStyle={{
                   backgroundColor: 'purple',
@@ -116,6 +116,8 @@ export default function LoginScreen() {
     </ScrollView>
   );
 };
+
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   brandView: {
