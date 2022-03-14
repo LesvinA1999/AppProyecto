@@ -2,23 +2,21 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
 
-export default function AgregarPedido() {
+export default function AgregarCliente() {
   const [NombreCliente, setNombre] = useState(null);
   const [ApellidoCliente, setApellido] = useState(null); 
   const [TelefonoCliente, setTelefono] = useState(null); 
   const [Direccion, setDireccion] = useState(null); 
-  const [Producto, setProducto] = useState(null);
-  const [Comercio, setComercio] = useState(null);
 
   const presGuardar = async () => {
     if(!NombreCliente || !ApellidoCliente || !Direccion){
       console.log("Escriba los datos requeridos");
-      Alert.alert("Escriba los datos requeridos");
+      Alert.alert("MEDI", "Escriba los datos requeridos");
     }
     else{
       try{
         const respuesta = await fetch(
-          'http://192.168.1.45:7000/api/pedidos/guardar',
+          'http://192.168.1.45:7000/api/clientes/guardar',
           {
             method: "POST", 
             headers: {
@@ -34,7 +32,7 @@ export default function AgregarPedido() {
           });
         const json = await respuesta.json();
         console.log(json);
-        Alert.alert("Peticion procesada");
+        Alert.alert("MEDI", "Peticion procesada");
       }catch(error){
         console.log(error);
       }
@@ -76,20 +74,6 @@ export default function AgregarPedido() {
               placeholder="Escriba la direccion"
               style = {styles.entradas}
             >
-            </TextInput>
-            <TextInput
-            value={Producto}
-            onChangeText={setProducto}
-              placeholder="Escriba el producto que desea pedir"
-              style = {styles.entradas}
-            >
-               <TextInput
-            value={Comercio}
-            onChangeText={setComercio}
-              placeholder="Escriba el Comercio de donde desea pedir"
-              style = {styles.entradas}
-            >
-            </TextInput>
             </TextInput>
           </View>
           <View style={styles.contenedorBotones}>

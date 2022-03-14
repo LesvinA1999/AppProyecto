@@ -1,70 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useCallback, useReducer, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Dimensions, Button, Alert, TouchableOpacity} from 'react-native';
-import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg"
-import ButtonGradient from './ButtonGradient';
+import React, { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import {Text, ScrollView, ImageBackground, Dimensions, View, TextInput, StyleSheet, Alert} from 'react-native';
+import { ListItem, Avatar, CheckBox, Button } from 'react-native-elements'
 
-const { width, height } = Dimensions.get('window')
 
-export default function Login() {
+const LoginScreen = ({navigation}) => {
 
-  function SvgTop() {
-    return (
-      <Svg
-      width={500}
-      height={324}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <Path
-        d="M297.871 315.826c73.405 13.896 165.338-13.964 202.129-29.63V230H1.326v63.5c69.15-42.913 204.789 4.957 296.545 22.326z"
-        fill="url(#prefix__paint0_linear_103:6)"
-        fillOpacity={0.5}
-      />
-      <Path
-        d="M237.716 308.627C110.226 338.066 30.987 318.618 0 304.77V0h500v304.77c-43.161-12.266-134.794-25.581-262.284 3.857z"
-        fill="url(#prefix__paint1_linear_103:6)"
-      />
-      <Defs>
-        <LinearGradient
-          id="prefix__paint0_linear_103:6"
-          x1={492.715}
-          y1={231.205}
-          x2={480.057}
-          y2={364.215}
-          gradientUnits="userSpaceOnUse"
-        >
-          <Stop stopColor="#3C75FF" />
-          <Stop offset={1} stopColor="#7255E5" />
-        </LinearGradient>
-        <LinearGradient
-          id="prefix__paint1_linear_103:6"
-          x1={7.304}
-          y1={4.155}
-          x2={144.016}
-          y2={422.041}
-          gradientUnits="userSpaceOnUse"
-        >
-          <Stop stopColor="#3C75FF" />
-          <Stop offset={1} stopColor="#7255E5" />
-        </LinearGradient>
-      </Defs>
-    </Svg>
-    )
-  }
-
-  const [Usuario, setUsuario] = useState();
-  const [Contrasena, setContrasena] = useState();
+  const [Usuario, setUsuario] = useState('');
+  const [Contrasena, setContrasena] = useState('');
 
   const iniciarSesion = async () => {
     if(!Usuario || !Contrasena){
       console.log("No puede dejar los campos vacios");
-      Alert.alert("UNICADEV", "No puede dejar los campos vacios");
+      Alert.alert("UNICA-DEV", "No puede dejar los campos vacios");
     }
     else{
       try{
         const respuesta = await fetch(
-          'http://192.168.0.11:7000/api/autenticacion/inicioSesion',
+          'http://192.168.0.4:7000/api/autenticacion/inicioSesion',
           {
             method: "POST", 
             headers: {
@@ -76,92 +30,136 @@ export default function Login() {
               Contrasena: Contrasena
             })
           });
+          
         const json = await respuesta.json();
+
         console.log(json);
-        Alert.alert("UNICADEV", "Peticion procesada");
       }catch(error){
         console.log(error);
       }
-    }
-  }
+    };
+  };
 
   return (
-    <View style={styles.mainContainer}>
-      <View style={styles.containerSVG}>
-        <SvgTop/>
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.titulo}>Bienvenido</Text>
-        <Text style={styles.subTitle}>Iniciar sesión con su cuenta</Text>
-        <TextInput value={Usuario}
-        onChangeText = {setUsuario}
-          placeholder="ejemplo@gmail.com"
-          style={styles.textInput}>
-        </TextInput>
-
-        <TextInput value={Contrasena}
-        onChangeText={setContrasena}
-          placeholder="contraseña"
-          style={styles.textInput}
-          secureTextEntry={true}>
-        </TextInput>
-        
-        <Text style={styles.forgotPassword}>¿Olvidaste tu contraseña?</Text>
-        <View>
-            <Button
-              onPress={iniciarSesion}
-              title="Iniciar Sesión"
-              color="#3C75FF"
-              accessibilityLabel="Learn more about this purple button"
-            />
+    <ScrollView 
+    style = {{flex: 1, backgroundColor: '#FFFFFF'}}
+    showsVerticalScrollIndicator={false}>
+      <ImageBackground 
+        source={require('./img/Background2.png')}
+        style={{
+          height: Dimensions.get('window').height / 2.5,
+      }}>
+        <View style={styles.brandView}>
+          <Ionicons name="ios-bicycle-sharp" size={100} color='#FFFFFF'/>
+          <Text style={styles.brandViewText}>Mandaditos Ya!</Text>
         </View>
-        <Text style={styles.forgotPassword}>¿No tienes una cuenta?</Text>
-        <StatusBar style="auto" />
+      </ImageBackground>
+
+      <View style={styles.bottomView}>
+        <View style={{padding: 40}}>
+          <Text style={{color:'#4632A1', fontSize:34}}>Bienvenidos</Text>
+          <Text>
+            ¿No tienes una cuenta?
+            <Text style={{color: 'red', fontStyle: 'italic'}}>
+              {'   '}
+              Registrarse ahora
+            </Text>
+          </Text>
+
+          <View style={{marginTop: 10}}>
+              <TextInput
+                  value={Usuario}
+                  onChangeText={setUsuario}
+                    placeholder="ejemplo@gmail.com"
+                    style={styles.textInput}>
+            </TextInput>
+
+            <TextInput 
+              value={Contrasena}
+              onChangeText={setContrasena}
+                placeholder="contraseña"
+                style={styles.textInput}
+                secureTextEntry={true}>
+            </TextInput>
+          </View>
+
+          <View style={styles.forgotPassView}>
+            <View style={{flex: 1, marginLeft:-20}}>
+              <ListItem noBorder>
+                <CheckBox checked={true} color= '#4632A1' size={30}/>
+                <Text style={{color: '#8F9195', alignSelf: 'center', fontSize:12}}>Ver contraseña</Text>
+              </ListItem>
+            </View>
+          </View>
+
+          <View style={styles.buttonsContainer}>
+              <Button onPress={() => navigation.navigate('AgregarClientes')}
+                title="LOG IN"
+                buttonStyle={{
+                  backgroundColor: 'purple',
+                  borderWidth: 2,
+                  borderColor: 'purple',
+                  borderRadius: 30,
+                  padding: 15
+                }}
+                containerStyle={{
+                  width: 250,
+                  marginHorizontal: 50,
+                  marginVertical: 10,
+                }}
+                titleStyle={{ fontWeight: 'bold' }}
+              />
+          </View>
+        </View>
       </View>
-    </View>
-      
+
+    </ScrollView>
   );
-}
+};
+
+export default LoginScreen;
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: '#f1f1f1',
+  brandView: {
     flex: 1,
-  },
-  container: {
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center'
   },
-  containerSVG: {
-    width: width,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  titulo: {
-    fontSize: 80,
-    color: '#34434D',
+  brandViewText: {
+    color: '#FFFFFF',
+    fontSize: 40,
     fontWeight: 'bold',
+    textTransform: 'uppercase'
   },
-  subTitle: {
-    fontSize: 20,
-    color: 'gray',
+  bottomView: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    bottom: 50,
+    borderTopStartRadius: 60,
+    borderTopEndRadius: 60,
   },
   textInput: {
     padding: 10,
     paddingStart: 30,
-    width: '80%',
-    height: 50,
-    marginTop: 20,
+    width: '100%',
+    height: 60,
+    marginTop: 18,
     borderRadius: 30,
-    backgroundColor: '#fff',
+    backgroundColor: '#F1F1F1',
   },
-  forgotPassword: {
-    fontSize: 14,
-    color: 'gray',
-    marginTop: 20
+  forgotPassView: {
+    height: 90,
+    paddingStart: 10,
+    marginTop: 10,
+    flexDirection: 'row'
   },
-  button: {
-    
+  buttonsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    marginVertical: 0,
+    position: 'relative'
   },
-  
 });
