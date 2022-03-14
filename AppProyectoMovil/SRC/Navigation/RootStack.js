@@ -3,13 +3,8 @@ import * as React from 'react';
 import { NavigationContainer, NavigationContainerRefContext } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Login from '../SRC/Componentes/login';
-import Clientes from '../SRC/Componentes/AgregarClientes';
-import Comercio from '../SRC/Componentes/AgregarComercio';
-import Pedidos from '../SRC/Componentes/AgregarPedidos';
-import Empleados from '../SRC/Componentes/empleados';
-import Usuarios from '../SRC/Componentes/usuarios';
-import AgregarCliente from '../SRC/Componentes/empleados';
+import Login from '../Componentes/login';
+import Navigation from '../Componentes/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,8 +25,7 @@ const RootStack = () => {
          }}
          initialRouteName='Login'>
              <Stack.Screen name='Login' component={Login}/>
-             <Stack.Screen name='AgregarClientes' component={AgregarCliente}/>
-             <Stack.Screen name='Usuarios' component={Usuarios}/>
+             <Stack.Screen name='Navigation' component={Navigation}/>
          </Stack.Navigator>
      </NavigationContainer>
  );   

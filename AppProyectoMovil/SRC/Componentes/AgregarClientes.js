@@ -99,19 +99,11 @@ export default function Clientes() {
                 placeholder="ejemplo@gmail.com"
                 style={styles.textInput}>
             </TextInput>
-
-            <TextInput value={Contrasena}
-              onChangeText={setContrasena}
-                placeholder="contraseña"
-                style={styles.textInput}
-                secureTextEntry={true}>
-            </TextInput>
             
           </View>
 
           <View style={styles.buttonsContainer}>
               <Button onPress={guardar}
-              onClick={loguear}
                 title="Registrase"
                 buttonStyle={{
                   backgroundColor: 'purple',
