@@ -28,6 +28,7 @@
     "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "0.17.1",
+    "yarn": "^1.22.17",
     "yet": "^0.1.0"
   },
   "devDependencies": {
