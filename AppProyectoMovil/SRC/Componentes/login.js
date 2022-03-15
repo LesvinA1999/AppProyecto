@@ -18,7 +18,7 @@ const LoginScreen = ({navigation}) => {
     else{
       try{
         const respuesta = await fetch(
-          'http://192.168.0.4:7000/api/autenticacion/inicioSesion',
+          'http://192.168.0.6:7000/api/autenticacion/inicioSesion',
           {
             method: "POST", 
             headers: {
@@ -60,7 +60,8 @@ const LoginScreen = ({navigation}) => {
           <Text style={{color:'#4632A1', fontSize:34}}>Bienvenidos</Text>
           <Text>
             ¿No tienes una cuenta?
-            <Text style={{color: 'red', fontStyle: 'italic'}}>
+            <Text style={{color: 'red', fontStyle: 'italic'}}
+            onPress={() => navigation.navigate('Usuarios')}>
               {'   '}
               Registrarse ahora
             </Text>
@@ -93,7 +94,7 @@ const LoginScreen = ({navigation}) => {
           </View>
 
           <View style={styles.buttonsContainer}>
-              <Button onPress={() => navigation.navigate('AgregarClientes')}
+              <Button onPress={iniciarSesion}
                 title="LOG IN"
                 buttonStyle={{
                   backgroundColor: 'purple',

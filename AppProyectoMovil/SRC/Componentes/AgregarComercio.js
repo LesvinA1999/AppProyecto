@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import {Text, ScrollView, ImageBackground, Dimensions, View, TextInput, StyleSheet, Alert} from 'react-native';
+import { ListItem, Avatar, CheckBox, Button } from 'react-native-elements'
 
 export default function AgregarComercio() {
   const [NombreComercio, setNombreComercio] = useState(null);
@@ -14,7 +16,7 @@ export default function AgregarComercio() {
     else{
       try{
         const respuesta = await fetch(
-          'http://192.168.18.1:7000/api/comercio/guardar',
+          'http://192.168.0.6:7000/api/comercios/guardar',
           {
             method: "POST", 
             headers: {
@@ -35,117 +37,107 @@ export default function AgregarComercio() {
     }
   }
 
-  return (
-    <View style={styles.contenedor}>
-      <View style={styles.contenedorClientes}>
-        <View style={styles.contenedorTitulo}>
-          <Text style={styles.titulo}>Agregar Clientes</Text>
+return (
+    <ScrollView 
+    style = {{flex: 1, backgroundColor: '#FFFFFF'}}
+    showsVerticalScrollIndicator={false}>
+      <ImageBackground 
+        source={require('./img/Background2.png')}
+        style={{
+          height: Dimensions.get('window').height / 2.5,
+      }}>
+        <View style={styles.brandView}>
+          <Ionicons name="ios-bicycle-sharp" size={100} color='#FFFFFF'/>
+          <Text style={styles.brandViewText}>Mandaditos Ya!</Text>
         </View>
-        <View style={[styles.contenedorControles, styles.sombraControles]}>
-          <View style={styles.controles}>
-            <TextInput
-            value={NombreComercio}
-            onChangeText={setNombreComercio}
-              placeholder="Escriba el NombreComercio"
-              style={styles.entradas}
-            >
+      </ImageBackground>
+
+      <View style={styles.bottomView}>
+        <View style={{padding: 40}}>
+          <Text style={{color:'#4632A1', fontSize:34, textAlign: 'center'}}>Guardar datos del comercio</Text>
+
+          <View style={{marginTop: 10}}>
+              <TextInput
+                  value={NombreComercio}
+                  onChangeText={setNombreComercio}
+                    placeholder="Ingrese nombre del comercio"
+                    style={styles.textInput}>
             </TextInput>
-            <TextInput
-            value={IdTipoComercio}
-            onChangeText={setIdTipoComercio}
-              placeholder="Escriba el IdTipoComercio"
-              style={styles.entradas}
-            >
+
+            <TextInput 
+              value={IdTipoComercio}
+              onChangeText={setIdTipoComercio}
+                placeholder="Seleccione el tipo de comercio"
+                style={styles.textInput}>
             </TextInput>
           </View>
-          <View style={styles.contenedorBotones}>
-            <View style={styles.boton}>
-              <Button title="Guardar"
-              onPress={presGuardar}
-              ></Button>
-            </View>
+
+          <View style={styles.buttonsContainer}>
+              <Button onPress={presGuardar}
+                title="Registrar"
+                buttonStyle={{
+                  backgroundColor: 'purple',
+                  borderWidth: 2,
+                  borderColor: 'purple',
+                  borderRadius: 30,
+                  padding: 15
+                }}
+                containerStyle={{
+                  width: 250,
+                  marginHorizontal: 50,
+                  marginVertical: 10,
+                }}
+                titleStyle={{ fontWeight: 'bold' }}
+              />
           </View>
         </View>
       </View>
-    </View>
+
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  contenedor: {
-    backgroundColor: '#e9ecef',
-    alignItems: 'center',
-    justifyContent: "center",
-    margin:0,
-    padding: 20,
-    width:"100%",
-    height:"100%",
-  },
-  contenedorClientes: {
-    alignItems: "stretch",
-    justifyContent: 'center',
-    height: 530,
-    width: 360,
-  },
-  contenedorTitulo: {
+  brandView: {
     flex: 1,
-    flexDirection:"column",
-    alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  contenedorControles: {
-    flex: 3,
-    flexDirection:"column",
-    alignItems: "stretch",
-    justifyContent:"center",
-    borderWidth: 1,
-    borderColor: "#dedede",
-    borderRadius:25,
-    backgroundColor:"#fff",
-    padding:10,
+  brandViewText: {
+    color: '#FFFFFF',
+    fontSize: 40,
+    fontWeight: 'bold',
+    textTransform: 'uppercase'
   },
-  sombraControles: {
-    shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+  bottomView: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    bottom: 50,
+    borderTopStartRadius: 60,
+    borderTopEndRadius: 60,
   },
-  titulo: {
-      color: "#495057" ,
-      fontSize: 40,
-      fontWeight: "500",
-    },
-  controles:{
-    flex:4,
-    marginBottom: 10,
-    paddingTop:10,
-    paddingLeft:10,
-    paddingRight:10,
-  },
-  contenedorBotones:{
-    flex:1,
+  textInput: {
     padding: 10,
-    justifyContent:"space-evenly",
-    flexDirection: "row",
+    paddingStart: 30,
+    width: '100%',
+    height: 60,
+    marginTop: 18,
+    borderRadius: 30,
+    backgroundColor: '#F1F1F1',
   },
-  boton:{
-    flex:1,
-    alignItems:"stretch",
-    marginLeft:10,
-    marginRight:10,
+  forgotPassView: {
+    height: 90,
+    paddingStart: 10,
+    marginTop: 10,
+    flexDirection: 'row'
   },
-  entradas:{
-    flex:1,
-    alignItems:"stretch",
-    margin:10,
-    padding:10,
-    fontSize: 20,
-    fontWeight:"400",
-    color: "#495057",
-    backgroundColor:"#fff",
-    borderWidth:1,
-    borderStyle:"solid",
-    borderColor: "#ced4da",
-    borderRadius: 15,
-  }
+  buttonsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    marginVertical: 30,
+    position: 'relative'
+  },
 });

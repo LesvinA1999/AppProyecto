@@ -21,7 +21,7 @@ export default function Clientes() {
     else{
       try{
         const respuesta = await fetch(
-          'http://192.168.0.4:7000/api/clientes/guardar',
+          'http://192.168.0.6:7000/api/clientes/guardar',
           {
             method: "POST", 
             headers: {
@@ -96,7 +96,7 @@ export default function Clientes() {
 
             <TextInput value={Idusuario}
               onChangeText = {setIdusuario}
-                placeholder="ejemplo@gmail.com"
+                placeholder="Seleccione el tipo de usuario"
                 style={styles.textInput}>
             </TextInput>
             
