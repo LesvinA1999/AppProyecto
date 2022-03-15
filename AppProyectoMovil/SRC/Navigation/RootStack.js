@@ -4,7 +4,8 @@ import { NavigationContainer, NavigationContainerRefContext } from '@react-navig
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Login from '../Componentes/login';
-import Navigation from '../Componentes/HomeScreen';
+import Usuarios from '../Componentes/usuarios';
+import Comercio from '../Componentes/AgregarComercio';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +15,7 @@ const RootStack = () => {
          <Stack.Navigator
          screenOptions={{
              headerStyle: {
-                 
+                 backgroundColor: 'transparent'
              },
              headerTintColor: '#1F2937',
              headerTransparent: true,
@@ -24,8 +25,8 @@ const RootStack = () => {
              }
          }}
          initialRouteName='Login'>
-             <Stack.Screen name='Login' component={Login}/>
-             <Stack.Screen name='Navigation' component={Navigation}/>
+             <Stack.Screen name='Login' component={Comercio}/>
+             <Stack.Screen name='Usuarios' component={Usuarios}/>
          </Stack.Navigator>
      </NavigationContainer>
  );   

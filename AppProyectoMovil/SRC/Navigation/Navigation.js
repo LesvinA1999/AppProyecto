@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from '../Componentes/HomeScreen';
 import Login from '../Componentes/login';
 import Profile from '../Componentes/AgregarClientes';
+import Comercio from '../Componentes/AgregarComercio';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +23,8 @@ export default function Navigation () {
                             iconName = focused ? 'ios-search' : 'ios-search-outline';
                         } else if (route.name === 'Profile') {
                             iconName = focused ? 'ios-person' : 'ios-person-outline';
+                        } else if (route.name === 'Comercio') {
+                            iconName = focused ? 'cart' : 'cart';
                         }
                         return <Ionicons name={iconName} size={size} color={"#5004AD"}/>;
                     },
@@ -31,6 +34,7 @@ export default function Navigation () {
                 <Tab.Screen name='Home' component={HomeScreen}/>
                 <Tab.Screen name='Login' component={Login}/>
                 <Tab.Screen name='Profile' component={Profile}/>
+                <Tab.Screen name='Comercio' component={Comercio}/>
             </Tab.Navigator>
         </NavigationContainer>
     );
