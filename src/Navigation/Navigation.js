@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from '../Componentes/HomeScreen';
-import Login from '../Componentes/login';
+import Login from '../Componentes/empleados';
 import Profile from '../Componentes/AgregarClientes';
 import Comercio from '../Componentes/AgregarComercio';
 
@@ -24,7 +24,7 @@ export default function Navigation () {
                         } else if (route.name === 'Profile') {
                             iconName = focused ? 'ios-person' : 'ios-person-outline';
                         } else if (route.name === 'Comercio') {
-                            iconName = focused ? 'cart' : 'cart';
+                            iconName = focused ? 'ios-cart' : 'ios-cart-outline';
                         }
                         return <Ionicons name={iconName} size={size} color={"#5004AD"}/>;
                     },

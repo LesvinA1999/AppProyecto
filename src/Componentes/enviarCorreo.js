@@ -1,27 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import {Text, ScrollView, ImageBackground, Dimensions, View, TextInput, StyleSheet, Alert} from 'react-native';
 import { ListItem, Avatar, CheckBox, Button } from 'react-native-elements'
 
+const Contrasena = () => {
 
-export default function Clientes() {
+  const [Usuario, setUsuario] = React.useState('');
 
-  const [NombreCliente, setNombreCliente] = useState('');
-  const [ApellidoCliente, setApellidoCliente] = useState('');
-  const [TelefonoCliente, setTelefonoCliente] = useState(null);
-  const [Direccion, setDireccion] = useState('');
-  const [Idusuario, setIdusuario] = useState(null);
-
-  const guardar = async () => {
-    if(!NombreCliente || !ApellidoCliente || !Direccion){
+  const recuperarContrasena = async () => {
+    if(!Usuario){
       console.log("No puede dejar los campos vacios");
-      Alert.alert("UNICA-DEV", "No puede dejar los campos vacios");
+      Alert.alert("¡Mandaditos Ya!", "No puede dejar los campos vacios");
     }
     else{
       try{
         const respuesta = await fetch(
-          'http://192.168.0.6:7000/api/clientes/guardar',
+          'http://192.168.0.4:7000/api/autenticacion/recuperarContrasena',
           {
             method: "POST", 
             headers: {
@@ -29,17 +24,14 @@ export default function Clientes() {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              NombreCliente: NombreCliente,
-              ApellidoCliente: ApellidoCliente,
-              TelefonoCliente: TelefonoCliente,
-              Direccion: Direccion,
-              Idusuario: Idusuario,
+              Usuario: Usuario
             })
           });
-          
-        const json = await respuesta.json();
 
-        console.log(json);
+          const json = await respuesta.text();
+          console.log(json);
+          Alert.alert("¡Mandaditos Ya!", json);
+
       }catch(error){
         console.log(error);
       }
@@ -63,48 +55,19 @@ export default function Clientes() {
 
       <View style={styles.bottomView}>
         <View style={{padding: 40}}>
-          <Text style={{color:'#4632A1', fontSize:34, textAlign: 'center'}}>Crear cuenta</Text>
-
+          <Text style={{color:'#4632A1', fontSize:34}}>Recuperacion de la cuenta</Text>
           <View style={{marginTop: 10}}>
               <TextInput
-                  value={NombreCliente}
-                  onChangeText={setNombreCliente}
-                    placeholder="Ingrese su nombre"
+                  value={Usuario}
+                  onChangeText={setUsuario}
+                    placeholder="ejemplo@gmail.com"
                     style={styles.textInput}>
             </TextInput>
-
-            <TextInput 
-              value={ApellidoCliente}
-              onChangeText={setApellidoCliente}
-                placeholder="Ingrese su apellido"
-                style={styles.textInput}>
-            </TextInput>
-
-            <TextInput 
-              value={TelefonoCliente}
-              onChangeText={setTelefonoCliente}
-                placeholder="Ingrese su numero de telefono"
-                style={styles.textInput}>
-            </TextInput>
-
-            <TextInput 
-              value={Direccion}
-              onChangeText={setDireccion}
-                placeholder="Ingrese su Direccion"
-                style={styles.textInput}>
-            </TextInput>
-
-            <TextInput value={Idusuario}
-              onChangeText = {setIdusuario}
-                placeholder="Seleccione el tipo de usuario"
-                style={styles.textInput}>
-            </TextInput>
-            
           </View>
 
           <View style={styles.buttonsContainer}>
-              <Button onPress={guardar}
-                title="Registrase"
+              <Button onPress={recuperarContrasena}
+                title="Enviar Correo"
                 buttonStyle={{
                   backgroundColor: 'purple',
                   borderWidth: 2,
@@ -126,6 +89,8 @@ export default function Clientes() {
     </ScrollView>
   );
 };
+
+export default Contrasena;
 
 const styles = StyleSheet.create({
   brandView: {
@@ -167,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    marginVertical: 30,
+    marginVertical: 40,
     position: 'relative'
   },
 });

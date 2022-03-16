@@ -5,7 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Login from '../Componentes/login';
 import Usuarios from '../Componentes/usuarios';
-import Comercio from '../Componentes/AgregarComercio';
+import enviarCorreo from '../Componentes/enviarCorreo';
+import Home from '../Componentes/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,8 +26,9 @@ const RootStack = () => {
              }
          }}
          initialRouteName='Login'>
-             <Stack.Screen name='Login' component={Comercio}/>
+             <Stack.Screen name='Login' component={Login}/>
              <Stack.Screen name='Usuarios' component={Usuarios}/>
+             <Stack.Screen name='enviarCorreo' component={enviarCorreo}/>
          </Stack.Navigator>
      </NavigationContainer>
  );   

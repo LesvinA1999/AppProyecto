@@ -5,21 +5,22 @@ import {Text, ScrollView, ImageBackground, Dimensions, View, TextInput, StyleShe
 import { ListItem, Avatar, CheckBox, Button } from 'react-native-elements'
 
 
-const Usuarios = () => {
+export default function Empleados() {
 
-  const [Usuario, setUsuario] = useState('');
-  const [Contrasena, setContrasena] = useState('');
-  const [IdTipoUsuario, setIdTipoUsuario] = useState(null);
+  const [NombreEmpledao, setNombreEmpledao] = useState('');
+  const [ApellidoEmpleado, setApellidoEmpleado] = useState('');
+  const [TelefonoEmpleado, setTelefonoEmpleado] = useState(null);
+  const [Idusuario, setIdusuario] = useState(28);
 
-  const guardarUsuario = async () => {
-    if(!Usuario || !Contrasena || !IdTipoUsuario){
+  const guardar = async () => {
+    if(!NombreEmpledao || !ApellidoEmpleado){
       console.log("No puede dejar los campos vacios");
-      Alert.alert("UNICA-DEV", "No puede dejar los campos vacios");
+      Alert.alert("¡Mandaditos Ya!", "No puede dejar los campos vacios");
     }
     else{
       try{
         const respuesta = await fetch(
-          'http://192.168.0.6:7000/api/usuarios/guardar',
+          'http://192.168.0.4:7000/api/empleados/guardar',
           {
             method: "POST", 
             headers: {
@@ -27,15 +28,16 @@ const Usuarios = () => {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              Usuario: Usuario,
-              Contrasena: Contrasena,
-              IdTipoUsuario: IdTipoUsuario
+              NombreEmpledao: NombreEmpledao,
+              ApellidoEmpleado: ApellidoEmpleado,
+              TelefonoEmpleado: TelefonoEmpleado,
+              Idusuario: Idusuario,
             })
           });
-          
-        const json = await respuesta.json();
 
-        console.log(json);
+          const json = await respuesta.text();
+          console.log(json);
+          Alert.alert("¡Mandaditos Ya!", json);
       }catch(error){
         console.log(error);
       }
@@ -46,51 +48,46 @@ const Usuarios = () => {
     <ScrollView 
     style = {{flex: 1, backgroundColor: '#FFFFFF'}}
     showsVerticalScrollIndicator={false}>
-      <ImageBackground 
-        source={require('./img/Background2.png')}
-        style={{
-          height: Dimensions.get('window').height / 2.5,
-      }}>
-        <View style={styles.brandView}>
-          <Ionicons name="ios-bicycle-sharp" size={100} color='#FFFFFF'/>
+      <View style={styles.brandView}>
+          <Ionicons name="ios-person-add" size={80} color='#5004AD'/>
           <Text style={styles.brandViewText}>Mandaditos Ya!</Text>
         </View>
-      </ImageBackground>
 
       <View style={styles.bottomView}>
         <View style={{padding: 40}}>
-          <Text style={{color:'#4632A1', fontSize:34}}>Crear cuenta</Text>
+          <Text style={{color:'#4632A1', fontSize:34, textAlign: 'center'}}>Crear empleado</Text>
+
           <View style={{marginTop: 10}}>
               <TextInput
-                  value={Usuario}
-                  onChangeText={setUsuario}
-                    placeholder="ejemplo@gmail.com"
+                  value={NombreEmpledao}
+                  onChangeText={setNombreEmpledao}
+                    placeholder="Ingrese su nombre"
                     style={styles.textInput}>
             </TextInput>
 
             <TextInput 
-              value={Contrasena}
-              onChangeText={setContrasena}
-                placeholder="contraseña"
-                style={styles.textInput}
-                secureTextEntry={true}>
+              value={ApellidoEmpleado}
+              onChangeText={setApellidoEmpleado}
+                placeholder="Ingrese su apellido"
+                style={styles.textInput}>
             </TextInput>
 
             <TextInput 
-              value={IdTipoUsuario}
-              onChangeText={setIdTipoUsuario}
-                placeholder="Seleccione tipo de usuario"
+              value={TelefonoEmpleado}
+              onChangeText={setTelefonoEmpleado}
+                placeholder="Ingrese su numero de telefono"
                 style={styles.textInput}>
             </TextInput>
+            
           </View>
 
           <View style={styles.buttonsContainer}>
-              <Button onPress={guardarUsuario}
-                title="Crear Usuario"
+              <Button onPress={guardar}
+                title="Registrase"
                 buttonStyle={{
-                  backgroundColor: 'purple',
+                  backgroundColor: '#5004AD',
                   borderWidth: 2,
-                  borderColor: 'purple',
+                  borderColor: '#5004AD',
                   borderRadius: 30,
                   padding: 15
                 }}
@@ -108,8 +105,6 @@ const Usuarios = () => {
     </ScrollView>
   );
 };
-
-export default Usuarios;
 
 const styles = StyleSheet.create({
   brandView: {
@@ -151,7 +146,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    marginVertical: 40,
+    marginVertical: 30,
     position: 'relative'
   },
 });

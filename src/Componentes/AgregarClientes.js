@@ -5,20 +5,23 @@ import {Text, ScrollView, ImageBackground, Dimensions, View, TextInput, StyleShe
 import { ListItem, Avatar, CheckBox, Button } from 'react-native-elements'
 
 
-const LoginScreen = ({navigation}) => {
+export default function Clientes() {
 
-  const [Usuario, setUsuario] = useState('');
-  const [Contrasena, setContrasena] = useState('');
+  const [NombreCliente, setNombreCliente] = useState('');
+  const [ApellidoCliente, setApellidoCliente] = useState('');
+  const [TelefonoCliente, setTelefonoCliente] = useState(null);
+  const [Direccion, setDireccion] = useState('');
+  const [Idusuario, setIdusuario] = useState(28);
 
-  const iniciarSesion = async () => {
-    if(!Usuario || !Contrasena){
+  const guardar = async () => {
+    if(!NombreCliente || !ApellidoCliente || !Direccion){
       console.log("No puede dejar los campos vacios");
-      Alert.alert("UNICA-DEV", "No puede dejar los campos vacios");
+      Alert.alert("¡Mandaditos Ya!", "No puede dejar los campos vacios");
     }
     else{
       try{
         const respuesta = await fetch(
-          'http://192.168.0.6:7000/api/autenticacion/inicioSesion',
+          'http://192.168.0.4:7000/api/clientes/guardar',
           {
             method: "POST", 
             headers: {
@@ -26,14 +29,17 @@ const LoginScreen = ({navigation}) => {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              Usuario: Usuario,
-              Contrasena: Contrasena
+              NombreCliente: NombreCliente,
+              ApellidoCliente: ApellidoCliente,
+              TelefonoCliente: TelefonoCliente,
+              Direccion: Direccion,
+              Idusuario: Idusuario,
             })
           });
-          
-        const json = await respuesta.json();
 
-        console.log(json);
+          const json = await respuesta.text();
+          console.log(json);
+          Alert.alert("¡Mandaditos Ya!", json);
       }catch(error){
         console.log(error);
       }
@@ -44,62 +50,53 @@ const LoginScreen = ({navigation}) => {
     <ScrollView 
     style = {{flex: 1, backgroundColor: '#FFFFFF'}}
     showsVerticalScrollIndicator={false}>
-      <ImageBackground 
-        source={require('./img/Background2.png')}
-        style={{
-          height: Dimensions.get('window').height / 2.5,
-      }}>
-        <View style={styles.brandView}>
-          <Ionicons name="ios-bicycle-sharp" size={100} color='#FFFFFF'/>
+      <View style={styles.brandView}>
+          <Ionicons name="ios-person-add" size={80} color='#5004AD'/>
           <Text style={styles.brandViewText}>Mandaditos Ya!</Text>
         </View>
-      </ImageBackground>
 
       <View style={styles.bottomView}>
         <View style={{padding: 40}}>
-          <Text style={{color:'#4632A1', fontSize:34}}>Bienvenidos</Text>
-          <Text>
-            ¿No tienes una cuenta?
-            <Text style={{color: 'red', fontStyle: 'italic'}}
-            onPress={() => navigation.navigate('Usuarios')}>
-              {'   '}
-              Registrarse ahora
-            </Text>
-          </Text>
+          <Text style={{color:'#4632A1', fontSize:34, textAlign: 'center'}}>Crear cliente</Text>
 
           <View style={{marginTop: 10}}>
               <TextInput
-                  value={Usuario}
-                  onChangeText={setUsuario}
-                    placeholder="ejemplo@gmail.com"
+                  value={NombreCliente}
+                  onChangeText={setNombreCliente}
+                    placeholder="Ingrese su nombre"
                     style={styles.textInput}>
             </TextInput>
 
             <TextInput 
-              value={Contrasena}
-              onChangeText={setContrasena}
-                placeholder="contraseña"
-                style={styles.textInput}
-                secureTextEntry={true}>
+              value={ApellidoCliente}
+              onChangeText={setApellidoCliente}
+                placeholder="Ingrese su apellido"
+                style={styles.textInput}>
             </TextInput>
-          </View>
 
-          <View style={styles.forgotPassView}>
-            <View style={{flex: 1, marginLeft:-20}}>
-              <ListItem noBorder>
-                <CheckBox checked={true} color= '#4632A1' size={30}/>
-                <Text style={{color: '#8F9195', alignSelf: 'center', fontSize:12}}>Ver contraseña</Text>
-              </ListItem>
-            </View>
+            <TextInput 
+              value={TelefonoCliente}
+              onChangeText={setTelefonoCliente}
+                placeholder="Ingrese su numero de telefono"
+                style={styles.textInput}>
+            </TextInput>
+
+            <TextInput 
+              value={Direccion}
+              onChangeText={setDireccion}
+                placeholder="Ingrese su Direccion"
+                style={styles.textInput}>
+            </TextInput>
+            
           </View>
 
           <View style={styles.buttonsContainer}>
-              <Button onPress={iniciarSesion}
-                title="LOG IN"
+              <Button onPress={guardar}
+                title="Registrase"
                 buttonStyle={{
-                  backgroundColor: 'purple',
+                  backgroundColor: '#5004AD',
                   borderWidth: 2,
-                  borderColor: 'purple',
+                  borderColor: '#5004AD',
                   borderRadius: 30,
                   padding: 15
                 }}
@@ -117,8 +114,6 @@ const LoginScreen = ({navigation}) => {
     </ScrollView>
   );
 };
-
-export default LoginScreen;
 
 const styles = StyleSheet.create({
   brandView: {
@@ -160,7 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    marginVertical: 0,
+    marginVertical: 30,
     position: 'relative'
   },
 });

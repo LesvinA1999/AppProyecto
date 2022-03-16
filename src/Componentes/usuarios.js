@@ -1,22 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import {Text, ScrollView, ImageBackground, Dimensions, View, TextInput, StyleSheet, Alert} from 'react-native';
 import { ListItem, Avatar, CheckBox, Button } from 'react-native-elements'
 
-export default function AgregarComercio() {
-  const [NombreComercio, setNombreComercio] = useState(null);
-  const [IdTipoComercio, setIdTipoComercio] = useState(null); 
+const Usuarios = () => {
 
-  const presGuardar = async () => {
-    if(!NombreComercio || !IdTipoComercio){
-      console.log("Escriba los datos requeridos");
-      Alert.alert("MEDI", "Escriba los datos requeridos");
+  const [Usuario, setUsuario] = useState('');
+  const [Contrasena, setContrasena] = useState('');
+  const [IdTipoUsuario, setIdTipoUsuario] = useState(1);
+
+  const guardarUsuario = async () => {
+    if(!Usuario || !Contrasena){
+      console.log("No puede dejar los campos vacios");
+      Alert.alert("¡Mandaditos Ya!", "No puede dejar los campos vacios");
     }
     else{
       try{
         const respuesta = await fetch(
-          'http://192.168.0.6:7000/api/comercios/guardar',
+          'http://192.168.0.4:7000/api/usuarios/guardar',
           {
             method: "POST", 
             headers: {
@@ -24,20 +26,23 @@ export default function AgregarComercio() {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              NombreComercio: NombreComercio,
-              IdTipoComercio: IdTipoComercio,
+              Usuario: Usuario,
+              Contrasena: Contrasena,
+              IdTipoUsuario: IdTipoUsuario
             })
           });
-        const json = await respuesta.json();
-        console.log(json);
-        Alert.alert("MEDI", "Peticion procesada");
+
+          const json = await respuesta.text();
+          console.log(json);
+          Alert.alert("¡Mandaditos Ya!", json);
+
       }catch(error){
         console.log(error);
       }
-    }
-  }
+    };
+  };
 
-return (
+  return (
     <ScrollView 
     style = {{flex: 1, backgroundColor: '#FFFFFF'}}
     showsVerticalScrollIndicator={false}>
@@ -54,31 +59,31 @@ return (
 
       <View style={styles.bottomView}>
         <View style={{padding: 40}}>
-          <Text style={{color:'#4632A1', fontSize:34, textAlign: 'center'}}>Guardar datos del comercio</Text>
-
+          <Text style={{color:'#4632A1', fontSize:34}}>Crear cuenta</Text>
           <View style={{marginTop: 10}}>
               <TextInput
-                  value={NombreComercio}
-                  onChangeText={setNombreComercio}
-                    placeholder="Ingrese nombre del comercio"
+                  value={Usuario}
+                  onChangeText={setUsuario}
+                    placeholder="ejemplo@gmail.com"
                     style={styles.textInput}>
             </TextInput>
 
             <TextInput 
-              value={IdTipoComercio}
-              onChangeText={setIdTipoComercio}
-                placeholder="Seleccione el tipo de comercio"
-                style={styles.textInput}>
+              value={Contrasena}
+              onChangeText={setContrasena}
+                placeholder="contraseña"
+                style={styles.textInput}
+                secureTextEntry={true}>
             </TextInput>
           </View>
 
           <View style={styles.buttonsContainer}>
-              <Button onPress={presGuardar}
-                title="Registrar"
+              <Button onPress={guardarUsuario}
+                title="Crear Usuario"
                 buttonStyle={{
-                  backgroundColor: 'purple',
+                  backgroundColor: '#5004AD',
                   borderWidth: 2,
-                  borderColor: 'purple',
+                  borderColor: '#5004AD',
                   borderRadius: 30,
                   padding: 15
                 }}
@@ -96,6 +101,8 @@ return (
     </ScrollView>
   );
 };
+
+export default Usuarios;
 
 const styles = StyleSheet.create({
   brandView: {
@@ -137,7 +144,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    marginVertical: 30,
+    marginVertical: 40,
     position: 'relative'
   },
 });
